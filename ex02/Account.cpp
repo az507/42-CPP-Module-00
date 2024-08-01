@@ -141,7 +141,8 @@ void	Account::_displayTimestamp(void)
 	std::cout << '[' << buffer << "] ";
 }
 
-Account::Account(void) : _accountIndex(_nbAccounts++), _amount(0), _nbDeposits(0), _nbWithdrawals(0)
+Account::Account(void) : _accountIndex(_nbAccounts++), _amount(0), _nbDeposits(0),
+	_nbWithdrawals(0)
 {
 
 }

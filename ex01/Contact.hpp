@@ -7,9 +7,16 @@
 # include <string>
 # include <iostream>
 
-enum	contactInfoType { FIRST_NAME = 0, LAST_NAME, NICKNAME, PHONE_NUMBER, DARKEST_SECRET };
+enum	contactInfoType
+{
+	firstname = 0,
+	lastname,
+	nickname,
+	phonenumber,
+	darkestsecret
+};
 
-extern std::string const 	contactFields[INFO_FIELDS_NBR];
+extern const std::string	contactFields[INFO_FIELDS_NBR];
 
 class	Contact
 {

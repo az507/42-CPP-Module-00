@@ -14,7 +14,8 @@ void	PhoneBook::addEntry(std::string contactDetails[])
 {
 	if (indexFillContact == MAX_CONTACTS)
 		indexFillContact = 0;
-	contactsArr[indexFillContact++].fillContact(contactDetails);
+
+ 	this->contactsArr[indexFillContact++].fillContact(contactDetails);
 }
 
 static std::string	resizeStr(std::string text)
@@ -52,11 +53,12 @@ static int	getIndexFromUser(void)
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 			if (std::cin.gcount() > 1)
-				std::cout << "Non-numeric character left in stream." << std::endl;
+				std::cout << "Non-numeric character left in stream.";
 			else if (index < 1 || index > MAX_CONTACTS)
-				std::cout << "Number not within range of contacts." << std::endl;
+				std::cout << "Number not within range of contacts.";
 			else
 				break ;
+			std::cout << std::endl;
 		}
 	}
 	return (index);
@@ -67,20 +69,33 @@ int	PhoneBook::displayEntries(void) const
 	int	index;
 	int	i;
 
+	std::cout << std::setw(11) << "Index|";
+	std::cout << std::setw(10) << ::contactFields[firstname] << '|';
+	std::cout << std::setw(10) << ::contactFields[lastname] << '|';
+	std::cout << std::setw(10) << ::contactFields[nickname] << '|' << std::endl;
+
 	for (i = 0; i < MAX_CONTACTS; ++i)
 	{
 		std::cout << std::setw(10) << i + 1 << "|";
-		std::cout << std::setw(10) << resizeStr(contactsArr[i].getContactInfo(FIRST_NAME)) << "|";
-		std::cout << std::setw(10) << resizeStr(contactsArr[i].getContactInfo(LAST_NAME)) << "|";
-		std::cout << std::setw(10) << resizeStr(contactsArr[i].getContactInfo(NICKNAME)) << "|" << std::endl;
+		std::cout << std::setw(10) << resizeStr(contactsArr[i]
+			.getContactInfo(firstname)) << "|";
+		std::cout << std::setw(10) << resizeStr(contactsArr[i]
+			.getContactInfo(lastname)) << "|";
+		std::cout << std::setw(10) << resizeStr(contactsArr[i]
+			.getContactInfo(nickname)) << "|" << std::endl;
 	}
 
 	index = getIndexFromUser();
 	if (index-- == EOF)
 		return (EOF);
 
+	if (contactsArr[index].getContactInfo(0).empty())
+		return (std::cout << "Contact number " << index + 1 << " not filled yet."
+			<< std::endl, !EOF);
+
 	for (i = 0; i < INFO_FIELDS_NBR; ++i)
-		std::cout << ::contactFields[i] << ": " << contactsArr[index].getContactInfo(i) << std::endl;
+		std::cout << ::contactFields[i] << ": " << contactsArr[index].
+			getContactInfo(i) << std::endl;
 
 	return (!EOF);
 }

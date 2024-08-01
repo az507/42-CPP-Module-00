@@ -6,12 +6,12 @@ int	(*initErrorCheckingPointers(std::string *errorMsg, int contactInfoType))(int
 {
 	switch (contactInfoType)
 	{
-		case FIRST_NAME:
-		case LAST_NAME:
-		case NICKNAME:
+		case firstname:
+		case lastname:
+		case nickname:
 			*errorMsg = "Non alphabetical character detected.";
 			return (&std::isalpha);
-		case PHONE_NUMBER:
+		case phonenumber:
 			*errorMsg = "Non numeric character detected.";
 			return (&std::isdigit);
 	}
@@ -51,14 +51,17 @@ int	saveContactDetails(PhoneBook *phoneBook)
 		std::getline(std::cin, input);
 		if (std::cin.eof())
 			return (EOF);
-		else if (input.empty() || input.find_first_not_of(" \t", 0) == std::string::npos)
+		else if (input.find_first_not_of(" \t", 0) == std::string::npos
+			|| input.empty())
 			continue ;
 		else if (!isValidContactDetail(input, i))
 			std::cout << "Invalid contact detail." << std::endl;
 		else
 			contactDetails[i++].assign(input);
 	}
+
 	phoneBook->addEntry(contactDetails);
+
 	return (!EOF);
 }
 
@@ -70,11 +73,13 @@ int	main(void)
 
 	for ( ; ; )
 	{
-		std::cout << "Enter a command to interact with the PhoneBook { ADD, SEARCH, EXIT }: ";
+		std::cout << "Enter a command to interact with the PhoneBook";
+		std::cout << " { ADD, SEARCH, EXIT }: ";
 		std::getline(std::cin, command);
 		if (std::cin.eof())
 			result = EOF;
-		else if (command.empty() || command.find_first_not_of(" \t", 0) == std::string::npos)
+		else if (command.find_first_not_of(" \t", 0) == std::string::npos
+			|| command.empty())
 			continue ;
 		else if (!command.compare("EXIT"))
 			break ;
